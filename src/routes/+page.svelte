@@ -1,5 +1,33 @@
 <script>
-	// We'll add JavaScript here in Unit 2.
+	// An array of transaction objects.
+	// Square brackets. Each item is a full object. Commas between items.
+	// Each transaction has a unique id so Svelte can track it efficiently in the list.
+	let transactions = $state([
+		{
+			id: 1,
+			date: '2026-04-01',
+			description: 'Opening cash deposit',
+			debit: 'Cash',
+			credit: "Owner's Equity",
+			amount: 5000
+		},
+		{
+			id: 2,
+			date: '2026-04-03',
+			description: 'Consulting fee from client',
+			debit: 'Cash',
+			credit: 'Revenue',
+			amount: 1200
+		},
+		{
+			id: 3,
+			date: '2026-04-05',
+			description: 'April rent',
+			debit: 'Rent Expense',
+			credit: 'Cash',
+			amount: 800
+		}
+	]);
 </script>
 
 <div class="mx-auto max-w-5xl space-y-8 p-6">
@@ -39,9 +67,9 @@
 			</div>
 
 			<div class="md:col-span-2">
-				<label for="description" class="mb-1 block text-sm font-medium text-slate-700"
-					>Description</label
-				>
+				<label for="description" class="mb-1 block text-sm font-medium text-slate-700">
+					Description
+				</label>
 				<input
 					id="description"
 					name="description"
@@ -53,9 +81,9 @@
 			</div>
 
 			<div>
-				<label for="debit" class="mb-1 block text-sm font-medium text-slate-700"
-					>Debit Account</label
-				>
+				<label for="debit" class="mb-1 block text-sm font-medium text-slate-700">
+					Debit Account
+				</label>
 				<select
 					id="debit"
 					name="debit"
@@ -73,9 +101,9 @@
 			</div>
 
 			<div>
-				<label for="credit" class="mb-1 block text-sm font-medium text-slate-700"
-					>Credit Account</label
-				>
+				<label for="credit" class="mb-1 block text-sm font-medium text-slate-700">
+					Credit Account
+				</label>
 				<select
 					id="credit"
 					name="credit"
@@ -112,10 +140,12 @@
 				<span>Total Revenue</span>
 				<span>$0.00</span>
 			</div>
+
 			<div class="flex justify-between font-medium text-rose-700">
 				<span>Total Expenses</span>
 				<span>$0.00</span>
 			</div>
+
 			<div class="flex justify-between border-t border-slate-300 pt-2 text-lg font-bold">
 				<span>Net Income</span>
 				<span>$0.00</span>
@@ -139,12 +169,18 @@
 						<th class="px-3 py-2 text-left">Type</th>
 					</tr>
 				</thead>
+
 				<tbody>
-					<tr class="border-t border-slate-200">
-						<td colspan="6" class="px-3 py-6 text-center text-slate-400 italic">
-							No transactions yet. Add one using the form above.
-						</td>
-					</tr>
+					{#each transactions as t (t.id)}
+						<tr class="border-t border-slate-200 hover:bg-slate-50">
+							<td class="px-3 py-2">{t.date}</td>
+							<td class="px-3 py-2">{t.description}</td>
+							<td class="px-3 py-2">{t.debit}</td>
+							<td class="px-3 py-2">{t.credit}</td>
+							<td class="px-3 py-2 text-right">${t.amount.toFixed(2)}</td>
+							<td class="px-3 py-2 text-slate-400">—</td>
+						</tr>
+					{/each}
 				</tbody>
 			</table>
 		</div>
